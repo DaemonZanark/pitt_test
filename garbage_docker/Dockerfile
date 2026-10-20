@@ -2,12 +2,12 @@ FROM eclipse-temurin:27-jdk-alpine AS builder
 
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
+COPY ../.mvn .mvn/
+COPY ../mvnw pom.xml ./
 RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline -B
 
-COPY src/ src/
+COPY ../src src/
 RUN ./mvnw clean package -DskipTests -B
 
 FROM eclipse-temurin:27-jre-alpine

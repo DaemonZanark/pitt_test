@@ -1,24 +1,15 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: backend-spring
-    restart: unless-stopped
+  postgres:
+    image: postgres:latest
+    container_name: shop-postgres
     environment:
-      SPRING_PROFILES_ACTIVE: production
-      SERVER_PORT: 8080
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      JAVA_TOOL_OPTIONS: >-
-        -XX:MaxRAMPercentage=75.0
-        -XX:+UseContainerSupport
-    expose:
-      - "8080"
-    networks:
-      - dokploy-network
+      POSTGRES_DB: shop
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-networks:
-  dokploy-network:
-    external: true
+volumes:
+  postgres_data:
